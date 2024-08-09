@@ -8,8 +8,8 @@ export default function TabOneScreen() {
     <View>
       <FlatList
         data={products}
-        renderItem={({ item, index }) => (
-          <ProductLisItem product={item} key={index} />
+        renderItem={({ item }) => (
+          <ProductLisItem product={item} key={item.id} />
         )}
         numColumns={2}
         contentContainerStyle={{ gap: 10, padding: 10 }}
