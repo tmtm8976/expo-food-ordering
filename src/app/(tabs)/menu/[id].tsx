@@ -2,13 +2,25 @@ import { Stack, useLocalSearchParams } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import products from "@assets/data/products";
 import { useState } from "react";
+import { PizzaSize } from "@types";
+import { useCart } from "@provider/CartProvider";
 
 export default function ProductDetailsScreen() {
   const { id } = useLocalSearchParams();
-  const [size, setSize] = useState("S");
-  const sizes = ["S", "M", "L", "XL", "2XL"];
+  const [size, setSize] = useState<PizzaSize>("S");
+  const sizes: PizzaSize[] = ["S", "M", "L", "XL"];
+
+  const { addItem } = useCart();
 
   const product = products.find((p) => p.id.toString() === id);
+
+  const handleAddToCart = () => {
+    if (product === undefined) {
+      return;
+    }
+    addItem(product, size);
+  };
+
   return (
     <View style={styles.container}>
       <View>
@@ -16,8 +28,9 @@ export default function ProductDetailsScreen() {
         <Image source={{ uri: product?.image }} style={styles?.Image} />
         <View>
           <View style={styles.sizesContainers}>
-            {sizes.map((s) => (
+            {sizes.map((s, i) => (
               <Pressable
+                key={i}
                 style={[
                   styles.sizeCircle,
                   s === size
@@ -37,7 +50,7 @@ export default function ProductDetailsScreen() {
         <Text style={styles.price}>{product?.price}</Text>
       </View>
 
-      <Pressable style={styles.addToCartBtn}>
+      <Pressable style={styles.addToCartBtn} onPress={handleAddToCart}>
         <Text style={styles.btnText}>Add To Cart</Text>
       </Pressable>
     </View>
