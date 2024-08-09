@@ -1,5 +1,12 @@
 import { Stack, useLocalSearchParams } from "expo-router";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  View,
+} from "react-native";
 import products from "@assets/data/products";
 import { useState } from "react";
 import { PizzaSize } from "@types";
@@ -18,6 +25,7 @@ export default function ProductDetailsScreen() {
     if (product === undefined) {
       return;
     }
+    ToastAndroid.show("added to cart", ToastAndroid.SHORT);
     addItem(product, size);
   };
 
